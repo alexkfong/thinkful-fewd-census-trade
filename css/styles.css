@@ -1,0 +1,125 @@
+html {  
+  /*Enable anti-aliasing for typography in current browsers*/
+  -webkit-font-smoothing: antialiased;
+}
+
+html, head, body, section, div, header, footer, 
+h1, h2, h3, h4, h5, h6, p, li, ul, a, span, img, div, section {
+  font-family: "bodoni-urw", serif;
+  color: black;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+}
+
+p, li, ul, a { 
+  font-weight: 400;
+}
+
+a:hover, .roundedRectangle:hover {
+  cursor: pointer;
+}
+
+/*general rules for typography*/
+.centerText {
+  text-align: center;
+}
+
+.rightAlignText {
+  text-align: right;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+
+.italic {
+  font-style: italic;
+}
+
+.colorRed {
+  color: #CE181E;
+}
+
+/*other general rules*/
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.displayInlineBlock {
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
+.floatLeft {
+  float: left;
+}
+
+.floatRight {
+  float: right;
+}
+
+.circle {
+  height: 50px;
+
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px; 
+  -khtml-border-radius: 50px;
+  border: 3px solid #CE181E;
+}
+
+/*button styles*/
+.roundedRectangle {
+  padding: 5px;
+
+  /*rounded border*/
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px; 
+  -khtml-border-radius: 5px;
+  border: 1px solid lightGray;
+
+  /*transition effects*/
+  -webkit-transition: border 0.3s ease;
+  -moz-transition: border 0.3s ease;
+  -o-transition: border 0.3s ease;
+  transition: border 0.3s ease;
+}
+
+.roundedRectangle:hover {
+  border: 1px solid #CE181E;
+}
+
+navbar > div > #logoMasthead > h1 {
+  font-size: 1rem;
+  line-height: .9rem;
+}
+
+#navbarInterface > li {
+  font-size: 0.9rem;
+  display: inline-block;
+}
+
+header > h1 {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+}
+
+header > p {
+  color: #727272;
+  font-size: 1.05rem;
+  line-height: 1.9rem;
+}
+
+header > p > .intro {
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

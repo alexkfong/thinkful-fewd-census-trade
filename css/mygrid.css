@@ -1,0 +1,138 @@
+/*mygrid.css by Alex K. Fong
+mygrid establishes a 24-column grid across 1200 pixels.
+It also enables box-sizing for current and legacy browsers,
+and removes default margins and padding on most tags.*/
+
+html {
+  /*Enable box-sizing for current and legacy browsers*/
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;   
+}
+
+*, *:before, *:after {
+  /*Enable box-sizing for current and legacy browsers*/
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+/* get rid of default margins and padding*/
+html, head, body, section, div, header, footer, 
+h1, h2, h3, h4, h5, h6, p, li, ul, a, span, img, div, section {
+  margin: 0;
+  padding: 0;
+}
+
+/*grid rules*/
+.grid1 { width: 50px; }
+.grid2 { width: 100px; }
+.grid3 { width: 150px; }
+.grid4 { width: 200px; }
+.grid5 { width: 250px; }
+.grid6 { width: 300px; }
+.grid7 { width: 350px; }
+.grid8 { width: 400px; }
+.grid9 { width: 450px; }
+.grid10 { width: 500px; }
+.grid11 { width: 550px; }
+.grid12 { width: 600px; }
+.grid13 { width: 650px; }
+.grid14 { width: 700px; }
+.grid15 { width: 750px; }
+.grid16 { width: 800px; }
+.grid17 { width: 850px; }
+.grid18 { width: 900px; }
+.grid19 { width: 950px; }
+.grid20 { width: 1000px; }
+.grid21 { width: 1050px; }
+.grid22 { width: 1100px; }
+.grid23 { width: 1150px; }
+.grid24 { width: 1200px; }
+
+/*margin rules*/
+.marginAbove10 { margin-top: 10px; }
+.marginAbove20 { margin-top: 20px; }
+.marginAbove30 { margin-top: 30px; }
+.marginAbove40 { margin-top: 40px; }
+.marginAbove50 { margin-top: 50px; }
+.marginAbove60 { margin-top: 60px; }
+.marginAbove70 { margin-top: 70px; }
+.marginAbove80 { margin-top: 80px; }
+.marginAbove90 { margin-top: 90px; }
+.marginAbove100 { margin-top: 100px; }
+
+.marginBelow10 { margin-bottom: 10px; }
+.marginBelow20 { margin-bottom: 20px; }
+.marginBelow30 { margin-bottom: 30px; }
+.marginBelow40 { margin-bottom: 40px; }
+.marginBelow50 { margin-bottom: 50px; }
+.marginBelow60 { margin-bottom: 60px; }
+.marginBelow70 { margin-bottom: 70px; }
+.marginBelow80 { margin-bottom: 80px; }
+.marginBelow90 { margin-bottom: 90px; }
+.marginBelow100 { margin-bottom: 100px; }
+
+.marginLeft10 { margin-left: 10px; }
+.marginLeft20 { margin-left: 20px; }
+.marginLeft30 { margin-left: 30px; }
+.marginLeft40 { margin-left: 40px; }
+.marginLeft50 { margin-left: 50px; }
+.marginLeft60 { margin-left: 60px; }
+.marginLeft70 { margin-left: 70px; }
+.marginLeft80 { margin-left: 80px; }
+.marginLeft90 { margin-left: 90px; }
+.marginLeft100 { margin-left: 100px; }
+
+.marginRight10 { margin-right: 10px; }
+.marginRight20 { margin-right: 20px; }
+.marginRight30 { margin-right: 30px; }
+.marginRight40 { margin-right: 40px; }
+.marginRight50 { margin-right: 50px; }
+.marginRight60 { margin-right: 60px; }
+.marginRight70 { margin-right: 70px; }
+.marginRight80 { margin-right: 80px; }
+.marginRight90 { margin-right: 90px; }
+.marginRight100 { margin-right: 100px; }
+
+.margin10 { margin: 10px; }
+.margin20 { margin: 20px; }
+.margin30 { margin: 30px; }
+.margin40 { margin: 40px; }
+.margin50 { margin: 50px; }
+.margin60 { margin: 60px; }
+.margin70 { margin: 70px; }
+.margin80 { margin: 80px; }
+.margin90 { margin: 90px; }
+.margin100 { margin: 100px; }
+
+/*padding rules*/
+.paddingAbove10 { padding-top: 10px; }
+.paddingAbove20 { padding-top: 20px; }
+.paddingAbove30 { padding-top: 30px; }
+.paddingAbove40 { padding-top: 40px; }
+.paddingAbove50 { padding-top: 50px; }
+
+.paddingBelow10 { padding-bottom: 10px; }
+.paddingBelow20 { padding-bottom: 20px; }
+.paddingBelow30 { padding-bottom: 30px; }
+.paddingBelow40 { padding-bottom: 40px; }
+.paddingBelow50 { padding-bottom: 50px; }
+
+.paddingLeft10 { padding-left: 10px; }
+.paddingLeft20 { padding-left: 20px; }
+.paddingLeft30 { padding-left: 30px; }
+.paddingLeft40 { padding-left: 40px; }
+.paddingLeft50 { padding-left: 50px; }
+
+.paddingRight10 { padding-right: 10px; }
+.paddingRight20 { padding-right: 20px; }
+.paddingRight30 { padding-right: 30px; }
+.paddingRight40 { padding-right: 40px; }
+.paddingRight50 { padding-right: 50px; }
+
+.padding10 { padding: 10px; }
+.padding20 { padding: 20px; }
+.padding30 { padding: 30px; }
+.padding40 { padding: 40px; }
+.padding50 { padding: 50px; }
