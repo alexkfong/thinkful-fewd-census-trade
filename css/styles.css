@@ -139,6 +139,7 @@ header > p > .intro {
   background-color: #CE181E;
 }
 
+/*responsive for computers*/
 @media only screen and (max-width: 820px) {
   .grid16 {
     width: 500px;
@@ -199,4 +200,100 @@ header > p > .intro {
   #dataSection {
     padding: 0;
   }
+}
+
+/*responsive for devices*/
+@media only screen and (min-device-width: 450px) and (max-device-width: 800px) {
+  
+  header > h1 {
+    font-size: 4em;
+  }
+  
+  p, li {
+    font-size: 1.4em;
+  }
+
+  .bodyText {
+    font-size: 1.1em;
+    line-height: 1.5em;
+  }
+
+  #navbarInterface > li {
+    font-size: 1.4em;
+  }
+
+  h2 {
+    font-size: 2em;
+  }
+
+}
+
+@media only screen and (max-device-width: 450px) {
+  
+  header > h1 {
+    font-size: 6em;
+    line-height: 0.9em;
+    margin-bottom: 50px;
+  }
+
+  p {
+    font-size: 0.8em;
+  }
+
+  li {
+    font-size: 2em;
+  }
+
+  .bodyText {
+    font-size: 0.9em;
+    line-height: 1.2em;
+  }
+
+  h2 {
+    font-size: 2em;
+  }
+
+  #navbarInterface > li {
+    font-size: 2.2em;
+  }
+
+  #dataSection {
+    margin: 0px auto;
+    padding: 0;
+  }
+
+  .grid16, .grid17 {
+    width: 800px;
+  }
+
+  .grid8 {
+    width: inherit;
+  }
+
+  .grid1 {
+    width: 100px;
+  }
+
+  .grid5 {
+    width: 550px;
+  }
+
+  .grid4 {
+    width: 350px;
+  }
+
+  #selectedCountry {
+    margin-top: 50px;
+    display: block;
+  }
+
+  #chinaData {
+    margin-top: 50px;
+    display: block;
+  }
+
+  .barChart {
+    height: 30px;
+  }
+
 }
