@@ -97,11 +97,6 @@ a:hover, .roundedRectangle:hover {
   border: 1px solid #CE181E;
 }
 
-navbar > div > #logoMasthead > h1 {
-  font-size: 1rem;
-  line-height: .9rem;
-}
-
 #navbarInterface > li {
   font-size: 0.9rem;
   display: inline-block;
@@ -144,16 +139,64 @@ header > p > .intro {
   background-color: #CE181E;
 }
 
-@media only screen and (max-device-width: 480px) {
-  header, navbar, section, footer {
-    width: 320px;
+@media only screen and (max-width: 820px) {
+  .grid16 {
+    width: 500px;
   }
 
-  header > h1 {
-    font-size: 4em;
+  .grid17 {
+    width: 550px;
+  }
+
+  .grid8 {
+    width: 250px;
+  }
+
+  .grid5 {
+    width: 100px;
   }
 
   .bodyText {
-    font-size: 0.8em;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 570px) {
+  .grid16 {
+    width: 300px;
+  }
+
+  .grid17 {
+    width: 350px;
+  }
+
+  .grid8 {
+    width: 300px;
+  }
+
+  .grid5 {
+    width: 150px;
+  }
+
+  header > h1 {
+    line-height: 2rem;
+  }
+
+  .bodyText {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  #selectedCountry {
+    display: block;
+  }
+
+  #chinaData {
+    display: block;
+  }
+
+  #dataSection {
+    padding: 0;
   }
 }
