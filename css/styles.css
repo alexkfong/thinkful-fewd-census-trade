@@ -78,6 +78,7 @@ a:hover, .roundedRectangle:hover {
 /*button styles*/
 .roundedRectangle {
   padding: 5px;
+  margin-top: 5px;
 
   /*rounded border*/
   -moz-border-radius: 5px;
