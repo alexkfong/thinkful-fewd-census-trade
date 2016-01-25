@@ -24,7 +24,7 @@ function getCountryDataAPI( countryRequested ) {
 
 	var censusAPIKey = '9c47725855f7e2bfbcab42b2038bb795bb1ffe3c';
 	var censusURL = 'http://api.census.gov/data/2014/intltrade/imp_exp?';
-	var censusCountryCode = getCountryCodeAPI ( countryName );
+	var censusCountryCode = getCountryCodeAPI ( countryRequested );
 
 	return 0;
 
@@ -47,8 +47,12 @@ function getCountryCodeAPI ( countryRequested ) {
 			countryName = 'Brunei';
 			break;
 		case 'canada':
-			countryCode = ;
-			countryName = '';
+			countryCode = 1220;
+			countryName = 'Canada';
+			break;
+		case 'chile':
+			coutryCode = 3370;
+			countryName = 'Chile';
 			break;
 		case 'china':
 			countryCode = 5700;
@@ -59,15 +63,28 @@ function getCountryCodeAPI ( countryRequested ) {
 			countryName = 'Japan';
 			break;
 		case 'malaysia':
-			countryCode = ;
+			countryCode = 5570;
 			countryName = 'Malaysia';
 			break;
 		case 'mexico':
-			countryCode = ;
+			countryCode = 2010;
 			countryName = 'Mexico';
+			break;
+		case 'newzealand':
+			countryCode = 6141;
+			countryName = 'New Zealand';
+			break;
+		case 'peru':
+			countryCode = 3330;
+			countryName = 'Peru';
+			break;
 		case 'singapore':
 			countryCode = 5590;
 			countryName = 'Singapore';
+			break;
+		case 'vietnam':
+			countryCode = 5520;
+			countryName = 'Vietnam';
 			break;
 	}
 
