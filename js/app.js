@@ -2,6 +2,7 @@ $(document).ready(function() {
 
 	// Begin by running API to get China data
 	var chinaData = getCountryDataAPI( 'china' );
+	console.log( chinaData );
 
 	//button is clicked
 	$('#navbarInterface').on( 'click', 'li', function(event) {
@@ -12,7 +13,7 @@ $(document).ready(function() {
 		// pass the string to a function that runs API
 		// and gets country data
 		var countryData = getCountryDataAPI( countryRequested );
-
+		
 		// Data received, update the DOM
 
 	});
@@ -22,18 +23,34 @@ $(document).ready(function() {
 // Uses census international trade API to get data about countries
 function getCountryDataAPI( countryRequested ) {
 
+	var censusURL = 'http://api.census.gov/data/2014/intltrade/imp_exp?get=';
 	var censusAPIKey = '&key=9c47725855f7e2bfbcab42b2038bb795bb1ffe3c';
 	var censusCountryCode = getCountryCodeAPI ( countryRequested );
 	
 	// object contains query strings for four types of data
 	var censusDataQueries = {
 		importsAll: 'IMPALL2014,IMPALL2013,IMPALL2012,IMPALL2011,IMPALL2010,',
-		importsManf: 'IMPMANF2014,IMPMANF2013,IMPMANF2012,IMPMANF2011,IMPMANF2010,'
+		importsManf: 'IMPMANF2014,IMPMANF2013,IMPMANF2012,IMPMANF2011,IMPMANF2010,',
+		exportsAll: 'EXPALL2014,EXPALL2013,EXPALL2012,EXPALL2011,EXPALL2010,',
+		exportsManf: 'EXPMANF2014,EXPMANF2013,EXPMANF2012,EXPMANF2011,EXPMANF2010,'
 	};
 	
-	var censusURL = 'http://api.census.gov/data/2014/intltrade/imp_exp?get=';
+	var data = {
 
-	var dataImportsAll = $.getJSON( (censusURL + censusDataQueries.importsAll + censusCountryCode.countryURL + censusAPIKey), function( data ){
+		importsAll: getCountryDataAPIjson( censusURL + censusDataQueries.importsAll + censusCountryCode.countryURL + censusAPIKey ),
+		importsManf: getCountryDataAPIjson( censusURL + censusDataQueries.importsManf + censusCountryCode.countryURL + censusAPIKey),
+		exportsAll: getCountryDataAPIjson( censusURL + censusDataQueries.exportsAll + censusCountryCode.countryURL + censusAPIKey),
+		exportsManf: getCountryDataAPIjson( censusURL + censusDataQueries.exportsManf + censusCountryCode.countryURL + censusAPIKey)
+
+	};
+
+	return data;
+
+};
+
+function getCountryDataAPIjson ( censusURL ) {
+
+	var queryResult = $.getJSON( censusURL, function( data ){
 		console.log('Query made.');
 	})
 	.done( function( data ) {
@@ -43,7 +60,7 @@ function getCountryDataAPI( countryRequested ) {
 		console.log('Error: Fail');
 	});
 
-	return dataImportsAll;
+	return queryResult;
 
 };
 
