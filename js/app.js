@@ -22,19 +22,41 @@ $(document).ready(function() {
 // Uses census international trade API to get data about countries
 function getCountryDataAPI( countryRequested ) {
 
-	var censusAPIKey = '9c47725855f7e2bfbcab42b2038bb795bb1ffe3c';
-	var censusURL = 'http://api.census.gov/data/2014/intltrade/imp_exp?';
+	var censusAPIKey = '&key=9c47725855f7e2bfbcab42b2038bb795bb1ffe3c';
 	var censusCountryCode = getCountryCodeAPI ( countryRequested );
+	
+	// object contains query strings for four types of data
+	var censusDataQueries = {
+		importsAll: 'IMPALL2014,IMPALL2013,IMPALL2012,IMPALL2011,IMPALL2010,',
+		importsManf: 'IMPMANF2014,IMPMANF2013,IMPMANF2012,IMPMANF2011,IMPMANF2010,'
+	};
+	
+	var censusURL = 'http://api.census.gov/data/2014/intltrade/imp_exp?get=';
 
-	return 0;
+	var dataImportsAll = $.getJSON( (censusURL + censusDataQueries.importsAll + censusCountryCode.countryURL + censusAPIKey), function( data ){
+		console.log('Query made.');
+	})
+	.done( function( data ) {
+		console.log( data )
+	})
+	.fail( function() {
+		console.log('Error: Fail');
+	});
+
+	return dataImportsAll;
 
 };
 
 // takes parsed string and returns codes for API
 // including country name if API does not return country name
+// I've decided to separate the langauge of the API query from the 
+// API's code for the country to promote code reusability.
+// The country schedule numbers are unlikely to change census
+// to census, but the API may. 
 function getCountryCodeAPI ( countryRequested ) {
 
-	var countryCode;
+	var countryCode; 
+	var countryURL = 'COUNTRY&SCHEDULE=';
 	var countryName;
 
 	switch(countryRequested) {
@@ -88,8 +110,11 @@ function getCountryCodeAPI ( countryRequested ) {
 			break;
 	}
 
+	countryURL += countryCode.toString();
+
 	return {
 		countryCode: countryCode,
+		countryURL: countryURL,
 		countryName: countryName
 	};
 };
