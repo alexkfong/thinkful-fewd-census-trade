@@ -13,6 +13,8 @@ $(document).ready(function() {
 		var countryData = getCountryDataAPI( countryRequested );
 		var chinaData = getCountryDataAPI( 'china' );
 		
+		console.log( countryData.exportsAll[0] );
+
 		// Data received, update the DOM
 		showDataDOM( countryData, countryRequested );
 		showDataDOM( chinaData, 'china' );
@@ -38,9 +40,16 @@ function showDataDOM( data, country ) {
 	results.find( 'h2' ).text( country );
 	$( '#dataSection' ).append( results );
 
-	// build the data wrapper 
-	var results = $('.templates dataDiv').clone();
-	
+	buildDataDOM( data.importsAll, country );
+	buildDataDOM( data.importsManf, country );
+	buildDataDOM( data.exportsAll, country );
+	buildDataDOM( data.exportsManf, country );
+
+};
+
+function buildDataDOM ( data, country ) {
+
+	var results = $( '.templates .dataDiv' ).clone();
 
 };
 
@@ -73,6 +82,7 @@ function getCountryDataAPI( countryRequested ) {
 		importsManf: getCountryDataAPIjson( censusURL + censusDataQueries.importsManf + censusCountryCode.countryURL + censusAPIKey),
 		exportsAll: getCountryDataAPIjson( censusURL + censusDataQueries.exportsAll + censusCountryCode.countryURL + censusAPIKey),
 		exportsManf: getCountryDataAPIjson( censusURL + censusDataQueries.exportsManf + censusCountryCode.countryURL + censusAPIKey),
+		country: countryRequested,
 		totalYears: censusDataQueries.totalYears
 	
 	};
@@ -91,8 +101,11 @@ function getCountryDataAPIjson ( censusURL ) {
 	})
 	.done( function( data ) {
 
-		console.log('Success');
-		console.log( data )
+		$.each( data, function () {
+
+			console.log( this );
+		
+		});
 	
 	})
 	.fail( function() {
