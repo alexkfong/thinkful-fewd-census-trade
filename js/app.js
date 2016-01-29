@@ -10,46 +10,66 @@ $(document).ready(function() {
 
 		// pass the string to a function that runs API
 		// and gets country data
-		var countryData = getCountryDataAPI( countryRequested );
-		var chinaData = getCountryDataAPI( 'china' );
-		
-		console.log( countryData.exportsAll[0] );
-
-		// Data received, update the DOM
-		showDataDOM( countryData, countryRequested );
-		showDataDOM( chinaData, 'china' );
+		getCountryDataAPI( countryRequested );
+		getCountryDataAPI( 'china' );
 
 	});
 
 });
 
+// builds the wrapper container for one country
+function prepareDataDOM( country ) {
 
-function showDataDOM( data, country ) {
-
-	// build the wrapper container for one country
 	var results = $('.templates .dataCountry').clone();
-	var containerElement = results.find( '.dataCountry' );
 	
 	if( country != 'china' ) {
-		containerElement.attr( 'id', 'selectedCountry' );
+		results.attr( 'id', 'selectedCountry' );
 	} 
 	else {
-		containerElement.attr( 'id', 'chinaData' );
+		results.attr( 'id', 'chinaData' );
 	}
 		
 	results.find( 'h2' ).text( country );
 	$( '#dataSection' ).append( results );
 
-	buildDataDOM( data.importsAll, country );
-	buildDataDOM( data.importsManf, country );
-	buildDataDOM( data.exportsAll, country );
-	buildDataDOM( data.exportsManf, country );
-
 };
 
-function buildDataDOM ( data, country ) {
+// meant to loop to build out data.
+function buildDataWrapperDOM ( data ) {
 
 	var results = $( '.templates .dataDiv' ).clone();
+
+	console.log( data[0].slice(0,-4) );
+
+	switch( data[0].slice(0,-4) ) {
+		case 'IMPALL':
+			results.find( '.dataDiv' ).attr('id', data[6] + data[0].slice(0,-4).toLowerCase() );
+			results.find( '.dataName' ).text( 'Imports ');
+			console.log( results );
+			break;
+		case 'IMPMANF':
+			results.find( '.dataDiv' ).attr('id', data[6] + data[0].slice(0,-4).toLowerCase() );
+			results.find( '.dataName' ).text( 'Manufactured imports');
+			console.log( results );
+			break;
+		case 'EXPALL':
+			results.find( '.dataDiv' ).attr('id', data[6] + data[0].slice(0,-4).toLowerCase() );
+			results.find( '.dataName' ).text( 'Exports');
+			console.log( results );
+			break;
+		case 'EXPMANF':
+			results.find( '.dataDiv' ).attr('id', data[6] + data[0].slice(0,-4).toLowerCase() );
+			results.find( '.dataName' ).text( 'Manufactured exports');
+			console.log( results );
+			break;
+	}
+	
+	if( data[6].toLowerCase == 'china' ) {
+		$( '#chinaData' ).filter( '#chinaData' ).append( results );	
+	}
+	else {
+		$( '#dataSection' ).find( '#selectedCountry' ).append( results );
+	}
 
 };
 
@@ -73,21 +93,13 @@ function getCountryDataAPI( countryRequested ) {
 		exportsManf: 'EXPMANF2014,EXPMANF2013,EXPMANF2012,EXPMANF2011,EXPMANF2010,',
 		totalYears: 5
 	};
-	
-	// builds out our data object, which is four arrays. because of how the
-	// census API returns its JSON, I've included the number of years.
-	var data = {
 
-		importsAll: getCountryDataAPIjson( censusURL + censusDataQueries.importsAll + censusCountryCode.countryURL + censusAPIKey ),
-		importsManf: getCountryDataAPIjson( censusURL + censusDataQueries.importsManf + censusCountryCode.countryURL + censusAPIKey),
-		exportsAll: getCountryDataAPIjson( censusURL + censusDataQueries.exportsAll + censusCountryCode.countryURL + censusAPIKey),
-		exportsManf: getCountryDataAPIjson( censusURL + censusDataQueries.exportsManf + censusCountryCode.countryURL + censusAPIKey),
-		country: countryRequested,
-		totalYears: censusDataQueries.totalYears
+	prepareDataDOM( countryRequested );
 	
-	};
-
-	return data;
+	getCountryDataAPIjson( censusURL + censusDataQueries.importsAll + censusCountryCode.countryURL + censusAPIKey );
+	getCountryDataAPIjson( censusURL + censusDataQueries.importsManf + censusCountryCode.countryURL + censusAPIKey);
+	getCountryDataAPIjson( censusURL + censusDataQueries.exportsAll + censusCountryCode.countryURL + censusAPIKey);
+	getCountryDataAPIjson( censusURL + censusDataQueries.exportsManf + censusCountryCode.countryURL + censusAPIKey);
 
 };
 
@@ -101,9 +113,9 @@ function getCountryDataAPIjson ( censusURL ) {
 	})
 	.done( function( data ) {
 
-		$.each( data, function () {
+		buildDataWrapperDOM( data[0] );
 
-			console.log( this );
+		$.each( data[1], function () {
 		
 		});
 	
@@ -111,6 +123,9 @@ function getCountryDataAPIjson ( censusURL ) {
 	.fail( function() {
 	
 		console.log('Error: Fail');
+		clearDOM();
+
+		// push an error message to the DOM
 	
 	});
 
