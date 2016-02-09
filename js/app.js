@@ -17,16 +17,19 @@ $(document).ready(function() {
 
 });
 
-// builds the wrapper container for one country
+// data is displayed within a div per country.
+// this function determines which country is being displayed
+// and then appends it with the appropriate HTML
+// into the appropriate section in the DOM
 function prepareDataDOM( country ) {
 
 	var results = $('.templates .dataCountry').clone();
 	
-	if( country != 'china' ) {
-		results.attr( 'id', 'selectedCountry' );
+	if( country == 'china' ) {
+		results.attr( 'id', 'chinaData' );
 	} 
 	else {
-		results.attr( 'id', 'chinaData' );
+		results.attr( 'id', 'selectedCountry' );
 	}
 		
 	results.find( 'h2' ).text( country );
@@ -35,40 +38,38 @@ function prepareDataDOM( country ) {
 };
 
 // meant to loop to build out data.
-function buildDataWrapperDOM ( data ) {
+function buildDataWrapperDOM ( data, countryRequested, actualData ) {
 
 	var results = $( '.templates .dataDiv' ).clone();
+	var dataID = countryRequested + data.slice(0,-4).toLowerCase();
+	var whichDIV;
 
-	console.log( data[0].slice(0,-4) );
-
-	switch( data[0].slice(0,-4) ) {
+	switch( data.slice(0,-4) ) {
 		case 'IMPALL':
-			results.find( '.dataDiv' ).attr('id', data[6] + data[0].slice(0,-4).toLowerCase() );
+			results.attr('id', dataID );
 			results.find( '.dataName' ).text( 'Imports ');
-			console.log( results );
 			break;
 		case 'IMPMANF':
-			results.find( '.dataDiv' ).attr('id', data[6] + data[0].slice(0,-4).toLowerCase() );
+			results.attr('id', dataID );
 			results.find( '.dataName' ).text( 'Manufactured imports');
-			console.log( results );
 			break;
 		case 'EXPALL':
-			results.find( '.dataDiv' ).attr('id', data[6] + data[0].slice(0,-4).toLowerCase() );
+			results.attr('id', dataID );
 			results.find( '.dataName' ).text( 'Exports');
-			console.log( results );
 			break;
 		case 'EXPMANF':
-			results.find( '.dataDiv' ).attr('id', data[6] + data[0].slice(0,-4).toLowerCase() );
+			results.attr('id', dataID );
 			results.find( '.dataName' ).text( 'Manufactured exports');
-			console.log( results );
 			break;
 	}
 	
-	if( data[6].toLowerCase == 'china' ) {
-		$( '#chinaData' ).filter( '#chinaData' ).append( results );	
+	if( countryRequested == 'china' ) {
+		$( '#dataSection' ).find( '#chinaData' ).append( results );	
+		whichDiv = '#chinaData';
 	}
 	else {
 		$( '#dataSection' ).find( '#selectedCountry' ).append( results );
+		whichDiv = '#selectedCountry';
 	}
 
 };
@@ -94,30 +95,44 @@ function getCountryDataAPI( countryRequested ) {
 		totalYears: 5
 	};
 
-	prepareDataDOM( countryRequested );
+	getCountryDataAPIjson( censusURL, censusCountryCode, censusAPIKey, censusDataQueries );
 	
-	getCountryDataAPIjson( censusURL + censusDataQueries.importsAll + censusCountryCode.countryURL + censusAPIKey );
-	getCountryDataAPIjson( censusURL + censusDataQueries.importsManf + censusCountryCode.countryURL + censusAPIKey);
-	getCountryDataAPIjson( censusURL + censusDataQueries.exportsAll + censusCountryCode.countryURL + censusAPIKey);
-	getCountryDataAPIjson( censusURL + censusDataQueries.exportsManf + censusCountryCode.countryURL + censusAPIKey);
-
 };
 
 // actually makes request for JSON here.
-function getCountryDataAPIjson ( censusURL ) {
+function getCountryDataAPIjson ( censusURL, censusCountryCode, censusAPIKey, censusDataQueries ) {
 
-	var queryResult = $.getJSON( censusURL, function( data ) {
+	var completeQuery = censusURL + censusDataQueries.importsAll + censusDataQueries.importsManf + censusDataQueries.exportsAll + censusDataQueries.exportsManf + censusCountryCode.countryURL + censusAPIKey;
+
+	var queryResult = $.getJSON( completeQuery, function( data ) {
 	
 		console.log('Query in progress.');
 	
 	})
 	.done( function( data ) {
 
-		buildDataWrapperDOM( data[0] );
+		prepareDataDOM( data[1][ censusDataQueries.totalYears * 4 ].toLowerCase() );
 
-		$.each( data[1], function () {
-		
-		});
+		// loop through data, which is four data sets of five pieces of data
+		for( var i=0; i<4; i++ ) {
+
+			// build a class with two arrays
+			var actualResults = new function() {
+				this.dollarValue = {};
+				this.year = {};
+			};
+
+			// loop through the set of data for one category
+			for( var k=0; k<censusDataQueries.totalYears; k++) {
+				
+				actualResults.dollarValue[k] = data[1][(i*4)+(k+i)];
+				actualResults.year[k] = data[0][(i*4)+(k+i)].substr( data[0][(i*4)+(k+i)].length - 4 );
+			
+			}
+
+			buildDataWrapperDOM( data[0][censusDataQueries.totalYears * i], data[1][ censusDataQueries.totalYears * 4 ].toLowerCase(), actualResults );
+
+		}
 	
 	})
 	.fail( function() {
