@@ -19,8 +19,7 @@ $(document).ready(function() {
 
 // data is displayed within a div per country.
 // this function determines which country is being displayed
-// and then appends it with the appropriate HTML
-// into the appropriate section in the DOM
+// and builds out the wrapper div for the country.
 function prepareDataDOM( country ) {
 
 	var results = $('.templates .dataCountry').clone();
@@ -37,39 +36,84 @@ function prepareDataDOM( country ) {
 
 };
 
-// meant to loop to build out data.
+// now that the country wrapper div exists, this function
+// populates it. It takes one data type at a time,
+// creates a wrapper DIV for the data,
+// and then inserts the actual data one entry at a time.
 function buildDataWrapperDOM ( data, countryRequested, actualData ) {
 
+	// clone the div that wraps a data set
 	var results = $( '.templates .dataDiv' ).clone();
-	var dataID = countryRequested + data.slice(0,-4).toLowerCase();
-	var whichDIV;
+	
+	// Object contains variables that are 
+	// determined by which country is currently being displayed
+	var countryDOM = {
+		whichDiv: '',
+		whichColor: ''
+	};
 
+	// create a unique ID name for the div that wras a single data set
+	var dataID = countryRequested + data.slice(0,-4).toLowerCase();
+	results.attr( 'id', dataID );
+
+	// determine which data type we're using and then
+	// prepare the appropriate HTML
 	switch( data.slice(0,-4) ) {
 		case 'IMPALL':
-			results.attr('id', dataID );
 			results.find( '.dataName' ).text( 'Imports ');
 			break;
 		case 'IMPMANF':
-			results.attr('id', dataID );
 			results.find( '.dataName' ).text( 'Manufactured imports');
 			break;
 		case 'EXPALL':
-			results.attr('id', dataID );
 			results.find( '.dataName' ).text( 'Exports');
 			break;
 		case 'EXPMANF':
-			results.attr('id', dataID );
 			results.find( '.dataName' ).text( 'Manufactured exports');
 			break;
 	}
 	
-	if( countryRequested == 'china' ) {
-		$( '#dataSection' ).find( '#chinaData' ).append( results );	
-		whichDiv = '#chinaData';
+	//now determine which country we're calling and select the 
+	//appropriate color scheme and div naming convention
+	if( countryRequested == 'china' ) {		
+		countryDOM.whichDiv = '#chinaData';
+		countryDOM.whichColor = 'backgroundRed';
 	}
 	else {
-		$( '#dataSection' ).find( '#selectedCountry' ).append( results );
-		whichDiv = '#selectedCountry';
+		countryDOM.whichDiv = '#selectedCountry';
+		countryDOM.whichColor = 'backgroundBlue';
+	}
+
+	// Create on the DOM the container for data set
+	$( '#dataSection' ).find( countryDOM.whichDiv ).append( results );	
+
+	console.log( actualData );
+
+	// Populate the data set with the data
+	for( var i=0; i < actualData.year.length; i++ ) {
+		
+		var dataHTML = $( '.templates .dataUL' ).clone();
+		var width = actualData.dollarValue[i] / 5000000000;
+		
+		if( width < 1 ) {
+			width = 1;
+		}
+
+		dataHTML.find( '.dataYear' ).text( actualData.year[i] );
+		dataHTML.find( '.barChart' ).attr( 'style', ('width:' + width + '%;' ) );
+		dataHTML.find( '.dataResult' ).text( Math.round( actualData.dollarValue[i] / 1000000 ) );
+
+		if( i==0 ) {
+			dataHTML.find( '.barChart' ).attr( 'class', ( dataHTML.find( '.barChart' ).attr( 'class' ) + ' ' + countryDOM.whichColor ) );
+		}
+		else {
+			dataHTML.find( '.barChart' ).attr( 'class', ( dataHTML.find( '.barChart' ).attr( 'class' ) + ' backgroundGray' ) );
+		}
+		
+		console.log( dataHTML );
+
+		$( '#dataSection' ).find( '#' + dataID ).find( '.dataList' ).append( dataHTML );
+
 	}
 
 };
@@ -118,15 +162,19 @@ function getCountryDataAPIjson ( censusURL, censusCountryCode, censusAPIKey, cen
 
 			// build a class with two arrays
 			var actualResults = new function() {
-				this.dollarValue = {};
-				this.year = {};
+				
+				//the data value is stored here
+				this.dollarValue = [];
+
+				//the corresponding year is stored here.
+				this.year = [];
 			};
 
 			// loop through the set of data for one category
 			for( var k=0; k<censusDataQueries.totalYears; k++) {
 				
 				actualResults.dollarValue[k] = data[1][(i*4)+(k+i)];
-				actualResults.year[k] = data[0][(i*4)+(k+i)].substr( data[0][(i*4)+(k+i)].length - 4 );
+				actualResults.year[k] = parseInt( data[0][(i*4)+(k+i)].substr( data[0][(i*4)+(k+i)].length - 4 ) );
 			
 			}
 
