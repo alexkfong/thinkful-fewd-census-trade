@@ -87,21 +87,37 @@ function buildDataWrapperDOM ( data, countryRequested, actualData ) {
 	// Create on the DOM the container for data set
 	$( '#dataSection' ).find( countryDOM.whichDiv ).append( results );	
 
-	console.log( actualData );
-
 	// Populate the data set with the data
 	for( var i=0; i < actualData.year.length; i++ ) {
 		
 		var dataHTML = $( '.templates .dataUL' ).clone();
 		var width = actualData.dollarValue[i] / 5000000000;
+		var separatorsToAdd;
+		var dollarValueParsed;
 		
+		// Ensure that something is displayed for even the smallest data
 		if( width < 1 ) {
 			width = 1;
 		}
 
 		dataHTML.find( '.dataYear' ).text( actualData.year[i] );
 		dataHTML.find( '.barChart' ).attr( 'style', ('width:' + width + '%;' ) );
-		dataHTML.find( '.dataResult' ).text( Math.round( actualData.dollarValue[i] / 1000000 ) );
+		
+		// Add commas to the numbers
+		dollarValueParsed = Math.round( actualData.dollarValue[i] / 1000000 ).toString();
+		separatorsToAdd = Math.floor( dollarValueParsed / 3 );
+
+		while( separatorsToAdd > 0 ) {
+
+			if( (separatorsToAdd * 3) < dollarValueParsed.length ) {
+				dollarValueParsed = dollarValueParsed.substr(0, dollarValueParsed.length - (3 * separatorsToAdd) ) + ',' + dollarValueParsed.substr( dollarValueParsed.length - (3 * separatorsToAdd ) );
+			}
+				
+			separatorsToAdd--;
+
+		}
+
+		dataHTML.find( '.dataResult' ).text( dollarValueParsed );
 
 		if( i==0 ) {
 			dataHTML.find( '.barChart' ).attr( 'class', ( dataHTML.find( '.barChart' ).attr( 'class' ) + ' ' + countryDOM.whichColor ) );

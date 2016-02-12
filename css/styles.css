@@ -191,11 +191,11 @@ header > p > .intro {
   }
 
   #selectedCountry {
-    display: block;
+    float: left;
   }
 
   #chinaData {
-    display: block;
+    float: right;
   }
 
   #dataSection {
