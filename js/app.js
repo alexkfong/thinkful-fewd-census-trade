@@ -109,8 +109,6 @@ function buildDataWrapperDOM ( data, countryRequested, actualData ) {
 		else {
 			dataHTML.find( '.barChart' ).attr( 'class', ( dataHTML.find( '.barChart' ).attr( 'class' ) + ' backgroundGray' ) );
 		}
-		
-		console.log( dataHTML );
 
 		$( '#dataSection' ).find( '#' + dataID ).find( '.dataList' ).append( dataHTML );
 
@@ -120,6 +118,8 @@ function buildDataWrapperDOM ( data, countryRequested, actualData ) {
 
 // clears previously visualized data from prior API query
 function clearDOM() {
+
+	$( '#dataSection' ).empty();
 
 };
 
@@ -178,7 +178,7 @@ function getCountryDataAPIjson ( censusURL, censusCountryCode, censusAPIKey, cen
 			
 			}
 
-			buildDataWrapperDOM( data[0][censusDataQueries.totalYears * i], data[1][ censusDataQueries.totalYears * 4 ].toLowerCase(), actualResults );
+			buildDataWrapperDOM( data[0][censusDataQueries.totalYears * i], data[1][ censusDataQueries.totalYears * 4 ].replace(/\s/g, '').toLowerCase(), actualResults );
 
 		}
 	
@@ -222,7 +222,7 @@ function getCountryCodeAPI ( countryRequested ) {
 			countryName = 'Canada';
 			break;
 		case 'chile':
-			coutryCode = 3370;
+			countryCode = 3370;
 			countryName = 'Chile';
 			break;
 		case 'china':
